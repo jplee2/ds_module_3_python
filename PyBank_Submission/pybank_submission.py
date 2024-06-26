@@ -1,3 +1,5 @@
+# In this Challenge, you are tasked with creating a Python script to analyze the financial records of your company.
+# Your task is to create a Python script that analyzes the records to produce the table below:
 # Financial Analysis
 # ----------------------------
 # Total Months: 86
@@ -7,75 +9,66 @@
 # Greatest Decrease in Profits: Feb-14 ($-1825558)
 
 
-
-# import module and set path
+### STEP 1: Import
+# Import module and set path
 import csv
-csvpath = 'PyBank/Resources/budget_data.csv'
+csvpath = 'PyBank_Submission/budget_data.csv'
 
 
-# variables
+# Variable Creation Section
 month_count = 0
 total_profit = 0
 last_month_profit = None
-
 changes = []
 month_changes = []
 
-# read in our data set
+
+### STEP 2: Read in our data set
+# The with statement ensures that the file is properly closed after the block of code is executed.
 with open(csvpath, encoding='UTF-8') as csvfile:
+    # The csv.reader() function is used to create a reader object csvreader that will iterate over lines in the CSV file (which use ',' to separate values)
     csvreader = csv.reader(csvfile, delimiter=',')
-
-    # read in our header
+    # Read in our header
     csv_header = next(csvreader)
-    # print(f'CSV Header: {csv_header}')
 
-    # calcuations using a for loop
+    
+    ### STEP 3: Calculations using a for loop
     for row in csvreader:
-
-        # count months
+        # For every row in the data set we will add 1 to our month_count variable, which will tally the total amount of months in our data set
         month_count = month_count + 1
-
-        # add profit
+        # For every row we will take the integer of the second cell and add it to our total_profit variable, giving us the sum of our profit/losses.
         total_profit = total_profit + int(row[1])
-
-        # this month profit - last month profit
+        # This condition checks if it is the first month in the dataset. If it is the first month (month_count == 1), the profit value of the current row is             assigned to last_month_profit.
         if month_count == 1:
             last_month_profit = int(row[1])
+        # If it is not the first month, the code calculates the profit change between the current month and the previous month.
+        # The profit change is computed by subtracting the profit value of the previous month (last_month_profit) from the profit value of the current month             (int(row[1])).
         else:
             change = int(row[1]) - last_month_profit
+            # The calculated profit change is then appended to the changes list to store all the profit changes.
             changes.append(change)
+            # The corresponding month value (row[0]) is also appended to the month_changes list to track which month each profit change corresponds to.
             month_changes.append(row[0])
-
-            # reset last month profit
+            # This step ensures that the profit value of the current month becomes the "last month profit" for the next iteration, enabling the calculation of               the next month's profit change.
             last_month_profit = int(row[1])
+
     
-    # print(month_count)
-    # print(total_profit)
-    # print(len(changes))
-
-
-    # calculate our average change
+    ### STEP 4: Calculations building off of our for loop
+    # Calculate our average change
     avg_change = sum(changes) / len(changes)
-    print(avg_change)
-
-
-    # calculate our greatest increase
+    # Calculate our greatest increase
     max_change = max(changes)
+    # This line finds the index of the maximum value (max_change) in the list changes and assigns it to the variable max_month_indx.
     max_month_indx = changes.index(max_change)
+    # This line retrieves the corresponding month value from the list month_changes using the index max_month_indx and assigns it to the variable max_month.
     max_month = month_changes[max_month_indx]
-    # print(max_change)
-    # print(max_month)
-
-
-    # calculate our greatest decrease
+    # Calculate our greatest decrease
     min_change = min(changes)
     min_month_indx = changes.index(min_change)
     min_month = month_changes[min_month_indx]
-    # print(min_change)
-    # print(min_month)
 
-
-    # format our information for readability
+    
+    ### STEP 5: Create the desired table & format for readability
     print('Financial Analysis')
     print('----------------------------')
     print(f'Total Months: {month_count}')
@@ -84,6 +77,9 @@ with open(csvpath, encoding='UTF-8') as csvfile:
     print(f'Greatest Increase in Profits: {max_month} ${max_change}')
     print(f'Greatest Decrease in Profits: {min_month} ${min_change}')
 
+
+### STEP 6: Write our table out to a new document
+# This line opens a file named 'election_results' in write mode ('w') and assigns the file object to the variable file2.
 file = open('financial_analysis.txt', 'w')
 file.write('Financial Analysis\n')
 file.write('----------------------------\n')
@@ -92,3 +88,4 @@ file.write(f'Total: ${total_profit}\n')
 file.write(f'Average Change: ${avg_change:.2f}\n')
 file.write(f'Greatest Increase in Profits: {max_month} ${max_change}\n')
 file.write(f'Greatest Decrease in Profits: {min_month} ${min_change}\n')
+file.close()
