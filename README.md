@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Data Science Bootcamp Module 3 Challenge: Python
 
 
@@ -18,8 +17,4 @@ The election script produced:
     The percentage of votes each candidate won
     The total number of votes each candidate won
     The winner of the election based on popular vote
-=======
-# Data Science Boot Camp Challenge: Module 3 - Python
 
-In this Challenge, I was tasked with creating Python scripts to analyze the financial records of a company & to help a small, rural town modernize its vote-counting process.
->>>>>>> 9462363fb918d40345866580100a29b360e7802c
